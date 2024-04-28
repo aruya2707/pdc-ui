@@ -29,7 +29,7 @@ def is_grey_scale(img_path):
                 return False
     return True
 
-
+# tidak ada perubahan unutk zoom karna ada batasan
 def zoomin():
     img = Image.open("static/img/img_now.jpg")
     img = img.convert("RGB")
@@ -185,7 +185,7 @@ def brightness_division():
 
 def convolution(img, kernel):
     h_img, w_img, _ = img.shape
-    out = np.zeros((h_img-2, w_img-2), dtype=float)
+    out = np.zeros((h_img-2, w_img-2), dtype=np.float64)
     new_img = np.zeros((h_img-2, w_img-2, 3))
     if np.array_equal((img[:, :, 1], img[:, :, 0]), img[:, :, 2]) == True:
         array = img[:, :, 0]
@@ -211,16 +211,22 @@ def convolution(img, kernel):
 
 def edge_detection():
     img = Image.open("static/img/img_now.jpg")
-    img_arr = np.asarray(img, dtype=int)
+    img_arr = np.asarray(img, dtype=np.int64)
     kernel = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
     new_arr = convolution(img_arr, kernel)
+    
+    # Since edge detection typically results in a grayscale image,
+    # we convert it to uint8 format for saving
+    new_arr = new_arr.astype('uint8')
+    
     new_img = Image.fromarray(new_arr)
     new_img.save("static/img/img_now.jpg")
 
 
+
 def blur():
     img = Image.open("static/img/img_now.jpg")
-    img_arr = np.asarray(img, dtype=int)
+    img_arr = np.asarray(img, dtype=np.int64)
     kernel = np.array(
         [[0.0625, 0.125, 0.0625], [0.125, 0.25, 0.125], [0.0625, 0.125, 0.0625]])
     new_arr = convolution(img_arr, kernel)
@@ -230,7 +236,7 @@ def blur():
 
 def sharpening():
     img = Image.open("static/img/img_now.jpg")
-    img_arr = np.asarray(img, dtype=int)
+    img_arr = np.asarray(img, dtype=np.int64)
     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
     new_arr = convolution(img_arr, kernel)
     new_img = Image.fromarray(new_arr)
@@ -241,26 +247,30 @@ def histogram_rgb():
     img_path = "static/img/img_now.jpg"
     img = Image.open(img_path)
     img_arr = np.asarray(img)
+
     if is_grey_scale(img_path):
-        g = img_arr[:, :, 0].flatten()
-        data_g = Counter(g)
-        plt.bar(list(data_g.keys()), data_g.values(), color='black')
+        grayscale_values = img_arr.flatten()
+        data_gray = Counter(grayscale_values)
+        plt.bar(list(data_gray.keys()), data_gray.values(), color='black')
         plt.savefig(f'static/img/grey_histogram.jpg', dpi=300)
         plt.clf()
     else:
         r = img_arr[:, :, 0].flatten()
         g = img_arr[:, :, 1].flatten()
         b = img_arr[:, :, 2].flatten()
+        
         data_r = Counter(r)
         data_g = Counter(g)
         data_b = Counter(b)
+        
         data_rgb = [data_r, data_g, data_b]
-        warna = ['red', 'green', 'blue']
-        data_hist = list(zip(warna, data_rgb))
-        for data in data_hist:
-            plt.bar(list(data[1].keys()), data[1].values(), color=f'{data[0]}')
-            plt.savefig(f'static/img/{data[0]}_histogram.jpg', dpi=300)
+        colors = ['red', 'green', 'blue']
+        
+        for data, color in zip(data_rgb, colors):
+            plt.bar(list(data.keys()), data.values(), color=color)
+            plt.savefig(f'static/img/{color}_histogram.jpg', dpi=300)
             plt.clf()
+
 
 
 def df(img):  # to make a histogram (count distribution frequency)
@@ -296,7 +306,8 @@ def threshold(lower_thres, upper_thres):
     condition = np.logical_and(np.greater_equal(img_arr, lower_thres),
                                np.less_equal(img_arr, upper_thres))
     print(lower_thres, upper_thres)
-    img_arr.setflags(write=1)
-    img_arr[condition] = 255
-    new_img = Image.fromarray(img_arr)
+    img_cpy = img_arr.copy() 
+    # img_arr.flags.writeable =  1
+    img_cpy[condition] = 255
+    new_img = Image.fromarray(img_cpy)
     new_img.save("static/img/img_now.jpg")

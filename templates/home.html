@@ -1,0 +1,12 @@
+{% extends "layout.html" %} {% block body %}
+<div class="jumbotron jumbotron-fluid" style="height: 100vh; width: 100vw;">
+    <div class="container">
+        <h1 class="display-4 align-self-center">Aplikasi PCD</h1>
+        <p class="lead"> Aplikasi untuk pemrosesan citra digital</p>
+        <form id="" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <input name="file" type="file" id="inputGroupFile04" accept="image/*" required>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -7,6 +7,12 @@ web flask wajib harus ada operasi :
 - Tampilan Operasi Morfologi [✓]
 - Counting objeck [✓]
 
+#Penggunaan
+
+- upload gambar yang ingin dihitung objeknya
+- pilih menu count object
+- citra hasil proses perhitungan dan nilai hitungan akan muncul di tampilan utama
+
 1. **Membaca Citra JPG/PNG**:
 
    - mengunggah file citra dalam format JPG atau PNG.

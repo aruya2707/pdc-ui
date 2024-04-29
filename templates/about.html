@@ -1,8 +1,33 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 
 {% block body %}
-<h3>Anggota Kelompok: </h3>
-<h3>Alya Angraini - 221511042</h3>
-<h3>Fadel Mohammad Fadillah - 221511048</h3>
-<h3>Linda Santika - 221511052</h3>
+<div class="jumbotron jumbotron-fluid text-center">
+    <div class="container">
+        <h1 class="display-4">Tentang Kami</h1>
+        <p class="lead">Informasi tentang anggota kelompok kami</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Anggota Kelompok</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h4 class="card-subtitle mb-2">Alya Angraini - 221511042</h4>
+                        </li>
+                        <li class="list-group-item">
+                            <h4 class="card-subtitle mb-2">Fadel Mohammad Fadillah - 221511048</h4>
+                        </li>
+                        <li class="list-group-item">
+                            <h4 class="card-subtitle mb-2">Linda Santika - 221511052</h4>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

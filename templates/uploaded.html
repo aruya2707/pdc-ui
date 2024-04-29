@@ -2,16 +2,9 @@
 <div class="jumbotron jumbotron-fluid text-center" style="width: 80vw;">
     <h3>After</h3>
     <img class="img-fluid" height="400px" width="400px" src="{{ url_for('static', filename=file_path) }}" alt="image here">
-    <!-- <div class="container-fluid">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
+    {% if message %}
+        <h1>{{ message }}</h1>  <!-- Menampilkan pesan jika ada -->
+    {% endif %}
 </div>
 <style>
 </style>

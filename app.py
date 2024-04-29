@@ -195,6 +195,35 @@ def thresholding():
     image_processing.threshold(lower_thres, upper_thres)
     return render_template("uploaded.html", file_path="img/img_now.jpg")
 
+@app.route("/dilasi",methods=['POST'])
+@nocache
+def dilasi():
+    image_processing.dilasi()
+    return render_template("uploaded.html", file_path="img/img_now.jpg")
+
+@app.route("/erosi",methods=['POST'])
+@nocache
+def erosi():
+    image_processing.erosi()
+    return render_template("uploaded.html", file_path="img/img_now.jpg")
+
+@app.route("/opening",methods=['POST'])
+@nocache
+def opening():
+    image_processing.opening()
+    return render_template("uploaded.html", file_path="img/img_now.jpg")
+
+@app.route("/closing",methods=['POST'])
+@nocache
+def closing():
+    image_processing.closing()
+    return render_template("uploaded.html", file_path="img/img_now.jpg")
+
+@app.route("/count_teknik1",methods=['POST'])
+@nocache
+def count_teknik1():
+    message = image_processing.count_object1()
+    return render_template("uploaded.html", file_path="img/img_now.jpg", message=message)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

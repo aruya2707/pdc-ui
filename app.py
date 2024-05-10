@@ -1,15 +1,21 @@
 import numpy as np
 from PIL import Image
 import image_processing
+import pengenalan_angka
 import os
 from flask import Flask, render_template, request, make_response
 from datetime import datetime
 from functools import wraps, update_wrapper
 from shutil import copyfile
+from flask import Flask, request, jsonify
+
 
 app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# List untuk menyimpan input dari pengguna
+numbers_to_recognize = []
 
 
 def nocache(view):
@@ -224,6 +230,16 @@ def closing():
 def count_teknik1():
     message = image_processing.count_object1()
     return render_template("uploaded.html", file_path="img/img_now.jpg", message=message)
+
+
+@app.route('/submit_number', methods=['POST'])
+@nocache
+def submit_number():
+    global numbers_to_recognize
+    data = request.json
+    numbers_to_recognize = [data['number']]
+    recognized_images = pengenalan_angka.kenali_angka(numbers_to_recognize)
+    return render_template("digit.html", file_paths=recognized_images)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

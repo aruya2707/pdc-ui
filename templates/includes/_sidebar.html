@@ -157,6 +157,23 @@
                 </div>
             </div>
             <div class="row">
+                <div class="nav_link dropdown">
+                    <button class="btn text-white dropdown-toggle" type="button" id="dropdownAngka" data-bs-toggle="dropdown" aria-expanded="false" onclick="showInputField()">
+                        <i class="bx bx-icon_name nav_icon"></i>
+                        <span class="nav_name">Pengenalan Angka</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownAngka">
+                        <li>
+                            <div id="inputAngka" class="hidden">
+                                <input type="number" id="inputAngkaField" name="user_number" placeholder="Masukkan angka...">
+                                <button type="button" onclick="submitAngka()">Submit</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row">
                 <a href="/about" class="nav_link btn text-white">
                     <?xml version="1.0" encoding="UTF-8"?>
                     <!-- The Best Svg Icon site in the world: iconSvg.co, Visit us! https://iconsvg.co -->
@@ -174,3 +191,30 @@
             </div>
     </nav>
 </div>
+<script>
+    function showInputField() {
+        var inputDiv = document.getElementById("inputAngka");
+        inputDiv.classList.toggle("hidden");
+    }
+
+    function submitAngka() {
+    var inputField = document.getElementById("inputAngkaField");
+    var angka = inputField.value;
+    
+    // Kirim angka yang dimasukkan ke server
+    fetch('/submit_number', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ number: angka })
+    })
+    .then(response => response.text()) // Mengubah respons menjadi teks
+    .then(html => {
+        // Menambahkan respons ke elemen dengan ID "resultContainer"
+        document.getElementById("resultContainer").innerHTML = html;
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+</script>

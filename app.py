@@ -1,15 +1,21 @@
 import numpy as np
 from PIL import Image
 import image_processing
+import pengenalan_angka
 import os
 from flask import Flask, render_template, request, make_response
 from datetime import datetime
 from functools import wraps, update_wrapper
 from shutil import copyfile
+from flask import Flask, request, jsonify
+
 
 app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# List untuk menyimpan input dari pengguna
+numbers_to_recognize = []
 
 
 def nocache(view):

@@ -182,30 +182,3 @@
             </div>
     </nav>
 </div>
-<script>
-    function showInputField() {
-        var inputDiv = document.getElementById("inputAngka");
-        inputDiv.classList.toggle("hidden");
-    }
-
-    function submitAngka() {
-    var inputField = document.getElementById("inputAngkaField");
-    var angka = inputField.value;
-    
-    // Kirim angka yang dimasukkan ke server
-    fetch('/submit_number', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ number: angka })
-    })
-    .then(response => response.text()) // Mengubah respons menjadi teks
-    .then(html => {
-        // Menambahkan respons ke elemen dengan ID "resultContainer"
-        document.getElementById("resultContainer").innerHTML = html;
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-</script>

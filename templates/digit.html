@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="jumbotron jumbotron-fluid text-center">
+    <div class="container">
+        <h1 class="display-4">Digit Recognition Result</h1>
+        <!-- Tambahkan konten lain yang sesuai jika diperlukan -->
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <!-- Tambahkan konten dari hasil pengenalan digit di sini -->
+            {% for file_path in file_paths %}
+                <div class="card mb-4">
+                    <img class="card-img-top" src="{{ file_path }}" alt="Digit Image">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

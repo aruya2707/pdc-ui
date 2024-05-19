@@ -272,8 +272,8 @@ def histogram_rgb():
             plt.clf()
 
 
-
-def df(img):  # to make a histogram (count distribution frequency)
+# to make a histogram (count distribution frequency)
+def df(img):  
     values = [0]*256
     for i in range(img.shape[0]):
         for j in range(img.shape[1]):

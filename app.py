@@ -13,8 +13,6 @@ app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# List untuk menyimpan input dari pengguna
-numbers_to_recognize = []
 
 
 def nocache(view):

@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import json
 
-from app import numbers_to_recognize
 
 def resize_image(image_path, target_size=(100, 100)):
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)

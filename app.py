@@ -14,8 +14,6 @@ app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# List untuk menyimpan input dari pengguna
-numbers_to_recognize = []
 
 
 def nocache(view):
@@ -256,6 +254,7 @@ def add_number_photo():
     message = message + image_processing.deteksi_angka(image_path='static/img/img_temp.jpg', knowledge=knowledge)
     image_processing.merge_image('static/img/img_now.jpg', 'static/img/img_temp.jpg')
     return render_template("number_recognition.html", file_path="img/img_now.jpg", message=message)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

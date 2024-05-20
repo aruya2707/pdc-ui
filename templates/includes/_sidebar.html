@@ -165,6 +165,14 @@
                 </div>
             </div>
             <div class="row">
+                <a class="nav_link dropdown-toggle btn text-white" href="#emoji_recog" data-bs-toggle="collapse" role="button" aria-controls="filter" aria-expanded="false">Emoji Recognition</a>
+                <div class="list-group collapse list-group-flush" id="emoji_recog" style="background-color: var(--first-color); color: white;">
+                    <form id="" action="{{ url_for('emoji_recognition') }}" method="POST" enctype="multipart/form-data">
+                        <button type="submit" class="list-group-item list-group-item-action" style="background-color: var(--first-color); color: white;">Recognize Emoji</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
                 <a href="/about" class="nav_link btn text-white">
                     <?xml version="1.0" encoding="UTF-8"?>
                     <!-- The Best Svg Icon site in the world: iconSvg.co, Visit us! https://iconsvg.co -->

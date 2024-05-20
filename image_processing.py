@@ -458,3 +458,30 @@ def merge_image(image_path1, image_path2):
 
     # Simpan gambar gabungan
     gabungan.save('static/img/img_now.jpg')
+
+def emoji_knowledge():
+    emojis = [
+        "blush", "disappointed_relieved", "expressionless", "face_with_raised_eyebrow",
+        "face_with_rolling_eyes", "grin", "grinning", "heart_eyes", "hugging_face",
+        "hushed", "joy", "kissing", "kissing_closed_eyes", "kissing_heart",
+        "kissing_smiling_eyes", "laughing", "neutral_face", "no_mouth", "open_mouth",
+        "persevere", "relaxed", "rolling_on_the_floor_laughing", "sleeping", "sleepy",
+        "slightly_smiling_face", "smile", "smiley", "smirk", "star-struck", "sunglasses",
+        "sweat_smile", "thinking_face", "tired_face", "wink", "yum", "zipper_mouth_face"
+    ]
+
+    emoji_dict = {}
+    for i in range(len(emojis)):
+        freeman_code = extract_freeman_chain_code('static/emoji/'+ emojis[i] + '.png')
+        emoji_dict[emojis[i]] = freeman_code
+        print("Freeman Chain Code " + emojis[i] + ':', freeman_code)
+    return emoji_dict
+
+def deteksi_emoji(image_path, knowledge):
+    np_freeman_chain_code = extract_freeman_chain_code(image_path)
+    print('bisa')
+    for emoji_name, chaincode in knowledge.items():
+        if(np.array_equal(np_freeman_chain_code, chaincode)):
+            print('emoji terdeteksi: ' + emoji_name)
+            return emoji_name
+        

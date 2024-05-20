@@ -1,7 +1,6 @@
 import numpy as np
 from PIL import Image
 import image_processing
-import pengenalan_angka
 import os
 from flask import Flask, render_template, request, make_response
 from datetime import datetime
@@ -256,6 +255,14 @@ def add_number_photo():
     message = message + image_processing.deteksi_angka(image_path='static/img/img_temp.jpg', knowledge=knowledge)
     image_processing.merge_image('static/img/img_now.jpg', 'static/img/img_temp.jpg')
     return render_template("number_recognition.html", file_path="img/img_now.jpg", message=message)
+
+@app.route("/emoji_recognition",methods=['POST'])
+@nocache
+def emoji_recognition():
+    knowledge = image_processing.emoji_knowledge()
+    message = 'Emoji Terdeteksi: '
+    message = message + image_processing.deteksi_emoji(image_path='static/img/img_now.jpg', knowledge=knowledge)
+    return render_template("uploaded.html", file_path="img/img_now.jpg", message=message)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

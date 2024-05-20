@@ -1,0 +1,17 @@
+{% extends "layout.html" %} {% block body %}
+<div class="jumbotron jumbotron-fluid text-center" style="width: 80vw;">
+    <h3>After</h3>
+    <img class="img-fluid" height="400px" width="400px" src="{{ url_for('static', filename=file_path) }}" alt="image here">
+    {% if message %}
+        <h1>Angka terdeteksi : {{ message }}</h1>  <!-- Menampilkan pesan jika ada -->
+    {% endif %}
+    <p>tambah angka: </p>
+    <form id="" action="{{ url_for('add_number_photo') }}" method="POST" enctype="multipart/form-data">
+        <input name="file" type="file" id="inputGroupFile04" accept="image/*" required>
+        <input type="hidden" name="message" id="" value={{message}}>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+</div>
+<style>
+</style>
+{% endblock %}

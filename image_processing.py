@@ -385,3 +385,76 @@ def count_object1():
     
     message = "jumlah objek : " + str(shape_count)
     return message
+
+def extract_freeman_chain_code(image_path):
+    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    edges = cv2.Canny(image, 100, 200)
+    contours, _ = cv2.findContours(edges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)     # Temukan kontur dalam citra
+    contour = max(contours, key=cv2.contourArea)
+    freeman_chain_code = []
+    
+    for i in range(1, len(contour)):
+        dx = contour[i][0][0] - contour[i-1][0][0]
+        dy = contour[i][0][1] - contour[i-1][0][1]
+        code = 0
+        # Hitung arah Freeman Chain Code
+        if dx == 1 and dy == 0:
+            code = 0
+        elif dx == 1 and dy == -1:
+            code = 1
+        elif dx == 0 and dy == -1:
+            code = 2
+        elif dx == -1 and dy == -1:
+            code = 3
+        elif dx == -1 and dy == 0:
+            code = 4
+        elif dx == -1 and dy == 1:
+            code = 5
+        elif dx == 0 and dy == 1:
+            code = 6
+        elif dx == 1 and dy == 1:
+            code = 7
+        
+        freeman_chain_code.append(code)   # Tambahkan ke Freeman Chain Code
+    np_freeman_chain_code = np.array(freeman_chain_code)
+    return np_freeman_chain_code
+
+def add_knowledge():
+    angka = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    array_angka = []
+    for i in range(len(angka)):
+        freeman_code = extract_freeman_chain_code('static/knowledge/' + angka[i] + '.png')
+        array_angka.append(freeman_code)
+        print("Freeman Chain Code " + str(i) + ':', freeman_code)
+    return array_angka
+
+def deteksi_angka(image_path, knowledge):    
+    np_freeman_chain_code = extract_freeman_chain_code(image_path)
+    for i in range(len(knowledge)):
+        if(np.array_equal(np_freeman_chain_code, knowledge[i])):
+            print('angka terdeteksi: ' + str(i))
+            return str(i)
+        
+def merge_image(image_path1, image_path2):
+    gambar1 = Image.open(image_path1)
+    gambar2 = Image.open(image_path2)
+
+    # Periksa ukuran gambar
+    lebar_gambar1, tinggi_gambar1 = gambar1.size
+    lebar_gambar2, tinggi_gambar2 = gambar2.size
+
+    # Hitung lebar dan tinggi baru untuk gambar gabungan
+    lebar_gabungan = lebar_gambar1 + lebar_gambar2
+    tinggi_gabungan = max(tinggi_gambar1, tinggi_gambar2)
+
+    # Buat gambar baru untuk gabungan
+    gabungan = Image.new('RGB', (lebar_gabungan, tinggi_gabungan))
+
+    # Tempelkan gambar pertama
+    gabungan.paste(gambar1, (0, 0))
+
+    # Tempelkan gambar kedua
+    gabungan.paste(gambar2, (lebar_gambar1, 0))
+
+    # Simpan gambar gabungan
+    gabungan.save('static/img/img_now.jpg')

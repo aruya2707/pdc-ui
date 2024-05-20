@@ -230,13 +230,31 @@ def count_teknik1():
     return render_template("uploaded.html", file_path="img/img_now.jpg", message=message)
 
 
-@app.route('/submit_number', methods=['POST'])
+@app.route("/number_recognition",methods=['POST'])
 @nocache
-def submit_number():
-    data = request.json
-    numbers_to_recognize = [data['number']]
-    recognized_images = pengenalan_angka.kenali_angka(numbers_to_recognize)
-    return render_template("digit.html", file_paths=recognized_images)
+def number_recognition():
+    knowledge = image_processing.add_knowledge()
+    message = image_processing.deteksi_angka(image_path='static/img/img_now.jpg', knowledge=knowledge)
+    return render_template("number_recognition.html", file_path="img/img_now.jpg", message=message)
+
+@app.route("/add_number_photo", methods=["POST"])
+@nocache
+def add_number_photo():
+    target = os.path.join(APP_ROOT, "static/img")
+    if not os.path.isdir(target):
+        if os.name == 'nt':
+            os.makedirs(target)
+        else:
+            os.mkdir(target)
+    for file in request.files.getlist("file"):
+        file.save("static/img/img_temp.jpg")
+    knowledge = image_processing.add_knowledge()
+    message = request.form['message']
+    # message = image_processing.deteksi_angka(image_path='static/img/img_now.jpg', knowledge=knowledge)
+    message = message + image_processing.deteksi_angka(image_path='static/img/img_temp.jpg', knowledge=knowledge)
+    image_processing.merge_image('static/img/img_now.jpg', 'static/img/img_temp.jpg')
+    return render_template("number_recognition.html", file_path="img/img_now.jpg", message=message)
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

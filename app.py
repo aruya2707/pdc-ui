@@ -14,8 +14,6 @@ app = Flask(__name__)
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# List untuk menyimpan input dari pengguna
-numbers_to_recognize = []
 
 
 def nocache(view):
@@ -235,7 +233,6 @@ def count_teknik1():
 @app.route('/submit_number', methods=['POST'])
 @nocache
 def submit_number():
-    global numbers_to_recognize
     data = request.json
     numbers_to_recognize = [data['number']]
     recognized_images = pengenalan_angka.kenali_angka(numbers_to_recognize)
